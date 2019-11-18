@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Marvel Giphy!</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style type="text/css">
+        button {
+          margin: 5px;
+        }
+      </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Marvel Characters!</h1>
+        </header>
+
+        <br>
+
+        <div class="row">
+            <div class="col-md-12" id="buttons"></div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-md-8" id="results"></div>
+
+            <div class="col-md-4" id="adding">
+                <input type="text" id="character-input">
+                <br>
+                <label for="character-input">Add A New Character!</label> 
+                <br>
+                <input id="add-character" type="submit" value="Submit">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        
+        var character = ["Ironman", "Captain America", "Thor", "Hulk"];
+
+        function results() {
+            var characterButton = $(this).attr("character-data");
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + characterButton + "&api_key=7Vry4OlXaQhi89bCmNpRa7TRF3fVngLs";
+            console.log(queryURL);
+
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function(response) {
+
+                var results = response.data;
+
+                for (var j = 0; j < results.length; j++) {
+                   var charDiv = $("<div>");
+                   var ratingText = $("<p>");
+                   ratingText.text("Rating: " + results[j].rating);
+                   var charImage = $("<img>");
+                   charImage.attr("src", results[j].images.fixed_height.url);
+                   charDiv.append(ratingText);
+                   charDiv.append(charImage);
+                   $("#results").prepend(charDiv);
+                }
+            })
+        }
+
+        function createButton () {
+            $("#buttons").empty();
+
+            for (var i = 0; i < character.length; i++) {
+                var characterButton = $("<button>");
+                characterButton.addClass("character");
+                characterButton.attr("character-data", character[i]);
+                characterButton.text(character[i]);
+                $("#buttons").append(characterButton);
+            }
+        }
+
+        $("#add-character").on("click", function(event){
+            event.preventDefault();
+            var addingCharacter = $("#character-input").val().trim();
+            character.push(addingCharacter);
+            createButton();
+        });
+
+
+        $(document).on("click", ".character", results);
+
+        createButton();
+
+    </script>
+</body>
+</html>
