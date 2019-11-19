@@ -46,7 +46,7 @@
 
         function results() {
             var characterButton = $(this).attr("character-data");
-            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + characterButton + "&api_key=7Vry4OlXaQhi89bCmNpRa7TRF3fVngLs";
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + characterButton + "&api_key=7Vry4OlXaQhi89bCmNpRa7TRF3fVngLs&limit=10";
             console.log(queryURL);
 
             $.ajax({
@@ -63,7 +63,7 @@
                    var charImage = $("<img>");
                    charImage.attr("src", results[j].images.fixed_height.url);
                    charDiv.append(ratingText);
-                   charDiv.append(charImage);
+                   charDiv.append(charImage, "<br> <br> <br>");
                    $("#results").prepend(charDiv);
                 }
             })
@@ -92,6 +92,17 @@
         $(document).on("click", ".character", results);
 
         createButton();
+
+        $(".gif").on("click", function() {
+            var state = $(this).attr("data-state");
+            if (state === "still") {
+                $(this).attr("src", $(this).attr("data-animate"));
+                $(this).attr("data-state", "animate");
+            } else {
+                $(this).attr("src", $(this).attr("data-still"));
+                $(this).attr("data-state", "still");
+            }
+        });
 
     </script>
 </body>
