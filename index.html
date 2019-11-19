@@ -55,17 +55,18 @@
             }).then(function(response) {
 
                 var results = response.data;
+                console.log(results);
 
                 for (var j = 0; j < results.length; j++) {
                    var charDiv = $("<div>");
                    var ratingText = $("<p>");
                    ratingText.text("Rating: " + results[j].rating);
                    var charImage = $("<img>");
-                   charImage.attr("src", results[j].images.fixed_height.url);
+                   charImage.attr("src", results[j].images.fixed_height_still.url);
+                   charImage.attr("data-still", results[j].images.fixed_height_still.url);
+                   charImage.attr("data-animate", results[j].images.fixed_height.url);
+                   charImage.attr("data-state", "still");
                    charImage.addClass("gif");
-                   charImage.attr("data-still");
-                   charImage.attr("data-animate");
-                   charImage.attr("data-state", "still")
                    charDiv.append(ratingText);
                    charDiv.append(charImage, "<br> <br> <br>");
                    $("#results").prepend(charDiv);
@@ -98,6 +99,7 @@
         createButton();
 
         $(".gif").on("click", function() {
+            console.log("clicked");
             var state = $(this).attr("data-state");
             if (state === "still") {
                 $(this).attr("src", $(this).attr("data-animate"));
