@@ -62,6 +62,10 @@
                    ratingText.text("Rating: " + results[j].rating);
                    var charImage = $("<img>");
                    charImage.attr("src", results[j].images.fixed_height.url);
+                   charImage.addClass("gif");
+                   charImage.attr("data-still");
+                   charImage.attr("data-animate");
+                   charImage.attr("data-state", "still")
                    charDiv.append(ratingText);
                    charDiv.append(charImage, "<br> <br> <br>");
                    $("#results").prepend(charDiv);
