@@ -76,8 +76,8 @@
                    charImage.attr("data-animate", results[j].images.fixed_height.url);
                    charImage.attr("data-state", "still");
                    charImage.addClass("gif");
-                   charDiv.append(ratingText);
-                   charDiv.append(charImage, "<br> <br> <br>");
+                   charDiv.append(charImage);
+                   charDiv.append(ratingText, "<br>");
                    $("#results").prepend(charDiv);
                 }
             })
